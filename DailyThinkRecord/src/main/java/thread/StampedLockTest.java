@@ -43,6 +43,7 @@ public class StampedLockTest {
             while (x == 0.0 && y == 0.0) {
                 long ws = sl.tryConvertToWriteLock(stamp);
                 if (ws != 0L) {
+                    // stamp = ws;
                     x = newX;
                     y = newY;
                     break;
