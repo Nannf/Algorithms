@@ -46,7 +46,7 @@ public class ObjPool<T, R> {
     public static void main(String[] args) {
         // 创建对象池
         ObjPool<Long, String> pool =
-                new ObjPool<Long, String>(10, 2L);
+                new ObjPool<>(10, 2L);
         // 通过对象池获取t，之后执行
         pool.exec(t -> {
             System.out.println(t);
