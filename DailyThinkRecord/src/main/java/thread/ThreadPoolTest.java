@@ -24,6 +24,7 @@ public class ThreadPoolTest {
         for (int i = 0; i< poolSize;i++) {
             WorkThread workThread = new WorkThread();
             workThreads.add(workThread);
+            workThread.start();
         }
     }
 
@@ -33,9 +34,22 @@ public class ThreadPoolTest {
         public void run() {
             // 每个线程的任务就是从阻塞队列中获取Runnable对象去执行
             while(true) {
-                Runnable runnable = queue.poll();
-                runnable.run();
+                try {
+                    Runnable runnable = queue.take();
+                    runnable.run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
+        }
+    }
+
+    public void submit(Runnable runnable) {
+        try {
+            queue.put(runnable);
+        } catch (Exception e ) {
+            e.printStackTrace();
         }
     }
 }
