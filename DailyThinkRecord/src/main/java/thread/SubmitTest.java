@@ -21,7 +21,22 @@ public class SubmitTest {
             }
         };
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<String> future = executorService.submit(callable);
+//        Future<String> future = executorService.submit(callable);
+//        System.out.println(future.get());
+        Future<?> future = executorService.submit(() ->{
+            try {
+                Thread.sleep(3000);
+                System.out.println("i am submit runnable!");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        while (!future.isDone()) {
+            System.out.println("i am not done");
+            Thread.sleep(1000);
+        }
+        System.out.println("i am done");
         System.out.println(future.get());
+
     }
 }
