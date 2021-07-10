@@ -24,9 +24,19 @@ public class ComplexRateLimiter {
 
     //线程给定一个申请时间，返回线程需要等待的时间
     private synchronized long reserve(long now) {
+        // 新增令牌桶的数量
         reSync(now);
+        // 现在令牌桶中可以提供的令牌数,最大是1，∵ storedPermits∈[0,maxPermits] ∴ canProvidePermits ∈ {0,1};
+        long canProvidePermits = Math.min(1, storedPermits);
+        // 令牌净需求，即需要生产的令牌数, needProvidePermits 属于 {0,1}
+        long needProvidePermits = 1 - canProvidePermits;
+        // 更新下一个令牌的产生时间，当令牌桶中有可用令牌的时候，保持不变
+        nextFreeTicketMicros = nextFreeTicketMicros + needProvidePermits * stableIntervalMicros;
+        // 当令牌桶中有存货时，存货减一，否则不做变化
+        storedPermits -= canProvidePermits;
 
-        return 0L;
+        // 返回下一个令牌的产生时间和申请时间之间的差值
+        return nextFreeTicketMicros - now;
     }
 
     // 相较于之间的SimpleRateLimiter新增了这个方法，
@@ -41,13 +51,16 @@ public class ComplexRateLimiter {
         // 所以限流器对象的一开始的下一个令牌的产生时间，一定 happens-before 后续的申请工作。
         // 所以第一个申请的对象，一定在限流器对象生成之后，如果是之后的话，我们就可以模拟初始化放令牌的动作
         // 通过申请时间和创建时间的差值，以及生成令牌的周期，和令牌桶的最大容量比较，获取其中的最小值
-        if (now >  nextFreeTicketMicros) {
+        if (now > nextFreeTicketMicros) {
             // 每一个申请令牌的线程在申请的时候，我们都通过这种方式重新计算令牌桶种的令牌数量
-            storedPermits = Math.min(maxPermits,(now - nextFreeTicketMicros) / stableIntervalMicros);
+            long newCreatePermits = (now - nextFreeTicketMicros) / stableIntervalMicros;
+            storedPermits = Math.min(maxPermits, newCreatePermits + storedPermits);
+            // 将下一个令牌的发放时间，这个分支表示令牌桶中仍有存货，申请线程无需等待，直接返回即可
             nextFreeTicketMicros = now;
         }
         // 在这里我们开始思考，令牌桶大于1之后，对我们申请程序而言，意味着什么
         // 如果我申请的时间在下一个令牌的产生之前，此时又当如何处理
+        // 这个函数的功能对我们而言就是生成令牌桶中数量的函数，如果比我下一个产生令牌的还早，说明根本不会触发令牌桶的更新操作
 
     }
 
