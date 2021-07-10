@@ -24,20 +24,24 @@ public class ComplexRateLimiter {
 
     //线程给定一个申请时间，返回线程需要等待的时间
     private synchronized long reserve(long now) {
+        reSync(now);
         return 0L;
+    }
+
+    // 相较于之间的SimpleRateLimiter新增了这个方法，
+    // 这个方法存在的目的我目前的感觉就是和参数定义的可用令牌数的更新和下一个令牌的产生时间有关
+    private void reSync(long now) {
+
     }
 
 
     // 线程申请令牌
     public void acquire() throws InterruptedException {
         long now = System.nanoTime();
-
         long wait = reserve(now);
-
         // 必要时进行等待
         if (wait > 0) {
             TimeUnit.MICROSECONDS.sleep(wait);
         }
-
     }
 }
