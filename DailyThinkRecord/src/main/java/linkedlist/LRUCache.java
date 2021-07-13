@@ -29,6 +29,7 @@ public class LRUCache {
 
     public LRUCache(int size) {
         this.size = size;
+        // 这个是哨兵
         this.data = new SingleLinkedList<>(null, null);
         count = 0;
         existsData = new HashSet<>(size);
@@ -56,12 +57,13 @@ public class LRUCache {
     }
 
     private void deleteTail() {
-        SingleLinkedList<Integer> head = data;
+        SingleLinkedList<Integer> head = data.next;
         SingleLinkedList<Integer> prev = data;
         while (head.next != null) {
             prev = head;
             head = head.next;
         }
+        existsData.remove(prev.next.e);
         prev.next = null;
     }
 
@@ -72,11 +74,12 @@ public class LRUCache {
     }
 
     private void deleteNodeByValue(int value) {
-        SingleLinkedList<Integer> head = data;
+        SingleLinkedList<Integer> head = data.next;
         SingleLinkedList<Integer> prev = data;
         while (head != null) {
             if (head.e == value) {
                 prev.next = head.next;
+                return;
             }
             prev = head;
             head = head.next;
@@ -86,5 +89,9 @@ public class LRUCache {
 
     public SingleLinkedList<Integer> getData() {
         return data;
+    }
+
+    public void print() {
+        LinkedListUtil.printList(data.next);
     }
 }

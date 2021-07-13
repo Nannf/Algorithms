@@ -10,9 +10,12 @@ public class LinkedListUtil {
 
     public static <E> void printList(SingleLinkedList<E> SingleLinkedList) {
         SingleLinkedList<E> head = SingleLinkedList;
-        while (head != null) {
-            System.out.println(head.e);
+        while (head.next != null) {
+            System.out.print(head.e);
+            System.out.print("->");
             head = head.next;
         }
+        System.out.print(head.e);
+        System.out.println();
     }
 }
