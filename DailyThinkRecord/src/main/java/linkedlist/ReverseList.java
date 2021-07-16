@@ -17,7 +17,7 @@ public class ReverseList {
             prev = cur;
             cur = tmp;
         }
-        // 别返回cur，cur此时已经为0了
+        // 别返回cur，cur此时已经为null了
         return prev;
     }
 }
