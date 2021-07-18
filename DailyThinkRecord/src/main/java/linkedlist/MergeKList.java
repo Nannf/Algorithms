@@ -36,8 +36,42 @@ package linkedlist;
  */
 public class MergeKList {
 
-    //
+    // 我们可以两两合并，
     public ListNode mergeKLists(ListNode[] lists) {
-        return null;
+        if (lists.length == 0) {
+            return new ListNode();
+        }
+        if (lists.length == 1) {
+            return lists[0];
+        }
+        for (int i = 1; i< lists.length ;i++) {
+            ListNode newNode = mergeTwoLists(lists[0],lists[i]);
+            lists[0] = newNode;
+        }
+        return lists[0];
+    }
+
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummyNode = new ListNode();
+        ListNode dummyHead = dummyNode;
+        ListNode head1 = l1;
+        ListNode head2 = l2;
+        while (head1 != null && head2 != null) {
+            if (head1.val <= head2.val) {
+                dummyNode.next = new ListNode(head1.val);
+
+                head1 =head1.next;
+            } else {
+                dummyNode.next = new ListNode(head2.val);
+                head2 =head2.next;
+            }
+            dummyNode = dummyNode.next;
+        }
+        if (head1 != null) {
+            dummyNode.next = head1;
+        } else {
+            dummyNode.next = head2;
+        }
+        return dummyHead.next;
     }
 }
