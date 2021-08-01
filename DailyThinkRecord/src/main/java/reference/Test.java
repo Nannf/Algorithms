@@ -1,5 +1,6 @@
 package reference;
 
+import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +28,13 @@ public class Test {
 
     public static void main(String[] args) {
         Nannf nannf  = new Nannf(9527);
-        TestWeakReference<Nannf> weakReference = new TestWeakReference<>( nannf);
+        ReferenceQueue<Nannf> referenceQueue =  new ReferenceQueue<>();
+        TestWeakReference weakReference = new TestWeakReference(nannf,referenceQueue);
         nannf = null;
 
         System.gc();
+
+
 
         try {
             //休眠一下，在运行的时候加上虚拟机参数-XX:+PrintGCDetails，输出gc信息，确定gc发生了。
