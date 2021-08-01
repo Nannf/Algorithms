@@ -10,20 +10,13 @@ import partern.chain.AbstractLogger;
  */
 public class WarnLogger extends AbstractLogger {
 
-    private int level;
 
     public WarnLogger(int level) {
         this.level = level;
     }
 
     @Override
-    public void printMessage(int level,String msg) {
-        if (this.level >= level) {
-            System.out.println("WARN : " + msg);
-        }
-
-        if (nextAbstractLogger != null) {
-            nextAbstractLogger.printMessage(level,msg);
-        }
+    public void write(String msg) {
+        System.out.println("WARN : " + msg);
     }
 }

@@ -8,8 +8,10 @@ package partern.chain;
  */
 public abstract class AbstractLogger {
 
+    protected int level;
+
     // 指向下一个处置的节点
-    protected  AbstractLogger nextAbstractLogger;
+    protected AbstractLogger nextAbstractLogger;
 
     protected void addLast(AbstractLogger nextAbstractLogger) {
         this.nextAbstractLogger = nextAbstractLogger;
@@ -21,5 +23,15 @@ public abstract class AbstractLogger {
 
 
     // 打印消息
-    public abstract void printMessage(int level, String msg);
+    public void printMessage(int level, String msg) {
+        if (this.level >= level) {
+            write(msg);
+        }
+
+        if (nextAbstractLogger != null) {
+            nextAbstractLogger.printMessage(level, msg);
+        }
+    }
+
+    protected abstract void write(String msg);
 }
