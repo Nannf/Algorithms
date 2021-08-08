@@ -13,7 +13,7 @@ public class CacheWithFuture<K, V> {
 
     // 当同时调用时，假设我们的calu耗时较久，会计算两次
     // 此时我们就想到了异步计算框架FutureTask
-    public V get(K k) {
+    public V get(K k) throws InterruptedException {
         Future<V> v = map.get(k);
         // 如果不存在
         if (v == null) {
@@ -35,7 +35,9 @@ public class CacheWithFuture<K, V> {
 
         try {
             return v.get();
-        } catch (InterruptedException e) {
+        } catch (CancellationException e) {
+            // 如果计算被终止了，那么缓存中应该移除
+            map.remove(k,v);
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
