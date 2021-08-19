@@ -14,6 +14,29 @@ package analyze;
  */
 public class SwapArray {
 
+    // 这个方法是冒泡
+    public static int[] swap2(int[] a, int len, int i) {
+        if (len <= i) {
+            throw new IllegalArgumentException("非法的i");
+        }
+        // 每个都冒泡冒上去
+        for (int j = i + 1; j < len; j++) {
+            // 都跟自己的前一个比
+            // 如果是7个，i=3的话
+            //
+            int t = j;
+            for (int k = j - 1; k <= j - 1 - i; k--) {
+                int temp = a[t];
+                a[t] = a[k];
+                a[k] = temp;
+                t = j - 1;
+            }
+        }
+
+        return a;
+    }
+
+
     // 这种方法是用一个临时的跟a大小一样的数组
     public static int[] swap1(int[] a, int len, int i) {
         if (len <= i) {
@@ -32,11 +55,13 @@ public class SwapArray {
         return b;
     }
 
+
     public static void main(String[] args) {
-        int[]a = {1,2,3,4,5,6,7};
-        for (int i : swap1(a,a.length,3)) {
+        int[] a = {1, 2, 3, 4, 5, 6, 7};
+        for (int i : swap2(a, a.length, 3)) {
             System.out.println(i);
-        };
+        }
+        ;
     }
 
 }
