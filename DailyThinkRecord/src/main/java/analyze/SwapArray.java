@@ -21,15 +21,12 @@ public class SwapArray {
         }
         // 每个都冒泡冒上去
         for (int j = i + 1; j < len; j++) {
-            // 都跟自己的前一个比
-            // 如果是7个，i=3的话
-            //
             int t = j;
-            for (int k = j - 1; k <= j - 1 - i; k--) {
+            for (int k = j - 1; k > j - 1 - (i + 1); k--) {
                 int temp = a[t];
                 a[t] = a[k];
                 a[k] = temp;
-                t = j - 1;
+                t--;
             }
         }
 
