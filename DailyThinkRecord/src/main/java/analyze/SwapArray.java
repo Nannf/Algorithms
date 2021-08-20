@@ -21,7 +21,9 @@ public class SwapArray {
         }
         // 每个都冒泡冒上去
         for (int j = i + 1; j < len; j++) {
+            // 这个记录的是每次要冒泡的下标，会随着冒泡的进行逐渐减少
             int t = j;
+            // 这个是每次冒泡要交换的下标，每个都需要交换i+1次
             for (int k = j - 1; k > j - 1 - (i + 1); k--) {
                 int temp = a[t];
                 a[t] = a[k];
