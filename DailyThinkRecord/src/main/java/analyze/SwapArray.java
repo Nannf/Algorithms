@@ -31,7 +31,6 @@ public class SwapArray {
                 t--;
             }
         }
-
         return a;
     }
 
@@ -60,7 +59,6 @@ public class SwapArray {
         for (int i : swap2(a, a.length, 3)) {
             System.out.println(i);
         }
-        ;
     }
 
 }
