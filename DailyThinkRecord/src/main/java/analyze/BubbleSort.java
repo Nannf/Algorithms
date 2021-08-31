@@ -21,7 +21,8 @@ public class BubbleSort {
         // 冒泡就是两两比较，每次都把最大的冒到数组的最后
         // 其实只要冒n-1次就可以了，每次都是从头开始比较，比较的结束是随着比较的进行而逐步递减的
 
-        // 需要比较n-1次
+        boolean flag = false;
+        // 需要比较n-1次，当我们发现针对某一个序列，运行结束之后没有需要交换的数时，表示已经有序
         for (int i = 0; i < length - 1; i++) {
             // 每次都是从0开始比较,每次比较的次数这个可以通过枚举来找到示例
             // length = 6, 第一次 i = 0， 需要比较5次
@@ -33,7 +34,13 @@ public class BubbleSort {
                     int temp = a[j + 1];
                     a[j + 1] = a[j];
                     a[j] = temp;
+                    // 表示还有交换
+                    flag = true;
                 }
+            }
+
+            if (!flag) {
+                break;
             }
         }
     }
