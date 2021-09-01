@@ -10,6 +10,7 @@ public class BitMap {
     // 我们用char来表示一位，一个char是2字节，可以表示16位
     private char[] bytes;
     // 二进制位，这个表示的数据的边界，比如我们的数字范围是1亿，那么我们使用一亿个字节来表示即可
+    // 位图存放的是数字的范围，散列表存放的是
     private int nbits;
 
     public BitMap(int nbits) {
