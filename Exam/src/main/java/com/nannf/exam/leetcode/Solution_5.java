@@ -1,4 +1,4 @@
-package com.nannf.leetcode;
+package com.nannf.exam.leetcode;
 
 /**
  * @author Nannf
@@ -16,12 +16,13 @@ public class Solution_5 {
     // 这种涉及到子串的一下就想到双指针了
     // 我的起始点就错了，应该先想着暴力怎么做
     // 就是枚举所有的子串呗
+    // 这种写法是超时的
     public String longestPalindrome(String s) {
         if (s == null || s.length() <= 1) {
             return s;
         }
         int max = 1;
-        String result = s.substring(0);
+        String result = s.substring(0,1);
         for (int i = 0; i < s.length() - 1; i++) {
             for (int j = i + 1; j < s.length(); j++) {
                 int m = i;
@@ -30,7 +31,7 @@ public class Solution_5 {
                 // 终止条件是m>n
                 while (m<=n) {
                     // 如果相等，需要接着比较
-                    if (s.indexOf(m) == s.indexOf(n)) {
+                    if (s.charAt(m) == s.charAt(n)) {
                         n--;
                         m++;
                     } else {
@@ -41,7 +42,7 @@ public class Solution_5 {
                 }
                 if (flag && (j-i+1) > max) {
                     max = j-i+1;
-                    result = s.substring(i,j-1);
+                    result = s.substring(i,j+1);
                 }
             }
         }
@@ -49,7 +50,7 @@ public class Solution_5 {
     }
 
     public static void main(String[] args) {
-        String str = "abab";
-        System.out.println(str.substring(0,2));
+        String str = "cbbd";
+        System.out.println(new Solution_5().longestPalindrome(str));
     }
 }
