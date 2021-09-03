@@ -25,6 +25,10 @@ public class Solution_5 {
         String result = s.substring(0,1);
         for (int i = 0; i < s.length() - 1; i++) {
             for (int j = i + 1; j < s.length(); j++) {
+                // 我们只遍历那些长度超过的，暴力可解
+                if (j - i < max) {
+                    continue;
+                }
                 int m = i;
                 int n = j;
                 boolean flag = true;
