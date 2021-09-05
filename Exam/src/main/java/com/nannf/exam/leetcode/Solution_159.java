@@ -1,6 +1,8 @@
 package com.nannf.exam.leetcode;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Set;
  */
 public class Solution_159 {
 
-    public int lengthOfLongestSubstringTwoDistinct(String s) {
+    public int lengthOfLongestSubstringTwoDistinct_BF(String s) {
         if (s == null) {
             return 0;
         }
@@ -57,5 +59,53 @@ public class Solution_159 {
             }
         }
         return true;
+    }
+
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        if (s == null) {
+            return 0;
+        }
+        if (s.length() <= 2) {
+            return s.length();
+        }
+
+        // 用来判断有没有
+        Set<Character> set = new HashSet<>();
+        char[] chars = s.toCharArray();
+        set.add(chars[0]);
+        // 最大长度
+        int max = 1;
+        // start end 是窗口
+        int start = 0;
+        int end = 1;
+        for (; end < chars.length; end++) {
+            if (!set.contains(chars[end])) {
+                set.add(chars[end]);
+                while (set.size() > 2) {
+                    // 我们就要移动窗口，在移动之前，我们要先计算这次合法状态下的最大值
+                    max = Math.max(max, end - start);
+                    // 最后保留的一定是跟这个新end最近的
+                    char keepChar = chars[end - 1];
+                    for (int k = end - 2; k >= start; k--) {
+                        if (chars[k] != keepChar) {
+                            // 移除这个key
+                            set.remove(chars[k]);
+                            // 更新窗口
+                            start = k + 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        // 我们在返回之前还要输出一次最大长度
+        max = Math.max(max, end - start);
+        return max;
+    }
+
+
+    public static void main(String[] args) {
+        String str = "ccaabbb";
+        System.out.println(new Solution_159().lengthOfLongestSubstringTwoDistinct(str));
     }
 }
