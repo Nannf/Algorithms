@@ -1,4 +1,7 @@
 package com.nannf.exam.leetcode;
+
+import java.util.PriorityQueue;
+
 /**
  * @author Nannf
  * @version v1.0
@@ -36,13 +39,27 @@ package com.nannf.exam.leetcode;
  */
 public class Solution_703 {
     class KthLargest {
-
+        PriorityQueue<Integer> queue ;
+        int k ;
         public KthLargest(int k, int[] nums) {
-
+            this.k = k;
+            queue = new PriorityQueue<>(k);
+            int len = nums.length;
+            for (int i : nums) {
+                add(i);
+            }
         }
 
         public int add(int val) {
-            return -1;
+            if (queue.size() < k) {
+                queue.offer(val);
+            } else {
+                if (queue.peek() < val) {
+                    queue.poll();
+                    queue.offer(val);
+                }
+            }
+            return queue.peek();
         }
     }
 
