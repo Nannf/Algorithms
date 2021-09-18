@@ -76,11 +76,11 @@ public class MergeSort {
             }
         }
 
-        if (i <= mid) {
+        while (i <= mid) {
             temp[t++] = a[i++];
         }
 
-        if (j <= end) {
+        while (j <= end) {
             temp[t++] = a[j++];
         }
 
