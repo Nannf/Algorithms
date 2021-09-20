@@ -9,8 +9,8 @@ package sort;
 public class QuickSort {
 
     public static void main(String[] args) {
-        int[] a = {6,5,4,1,2,3};
-        sort(a,6);
+        int[] a = {6, 5, 4, 1, 2, 3};
+        sort(a, 6);
         for (int i : a) {
             System.out.println(i);
         }
@@ -38,18 +38,28 @@ public class QuickSort {
     }
 
     private static int partition(int[] a, int start, int end) {
-        // 怎么计算这个位置呢？
-        // 这个位置的特点是，找到多少个比q小的
-        int target = a[end];
-        // 这个就是我们选择出来的位置
-        int temp = 0;
+        // 首先我们要定义一个分区点，这一般定位end的索引所在位置，记为pivot
+        // 这个要做的就是把所有比分区点小的放在分区点的左边，大的放在右边，最后返回分区点的位置
+        int pivot = a[end];
+
+        int[] lower = new int[end - start + 1];
+        int[] upper = new int[end - start + 1];
+        int lowerIndex = 0;
+        int upperIndex = 0;
+
         for (int i = start; i < end; i++) {
-            if (a[i] <= target) {
-                temp++;
+            if (a[i] <= pivot) {
+                lower[lowerIndex++] = a[i];
+            } else {
+                upper[upperIndex++] = a[i];
             }
         }
-        a[end] = a[temp];
-        a[temp] = target;
-        return temp;
+
+        for (int i = 0; i < lowerIndex; i++) {
+            a[start + i] = lower[i];
+        }
+        a[start + lowerIndex] = pivot;
+        System.arraycopy(upper, 0, a, start + lowerIndex + 1, upperIndex);
+        return start + lowerIndex;
     }
 }
