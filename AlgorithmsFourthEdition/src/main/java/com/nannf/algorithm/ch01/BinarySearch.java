@@ -24,10 +24,27 @@ public class BinarySearch {
         return -1;
     }
 
+    public static int rankWithRecursive(int key, int[] a, int start, int end) {
+        if (start > end) {
+            return -1;
+        }
+        int mid = start + (end - start) / 2;
+        if (a[mid] == key) {
+            return mid;
+        }
+        if (a[mid] < key) {
+            return rankWithRecursive(key, a, mid + 1, end);
+        } else {
+            return rankWithRecursive(key, a, start, mid - 1);
+        }
+    }
+
 
     public static void main(String[] args) {
         int key = 3;
-        int[] a= {1,2,3,4,5,6,7};
-        System.out.println(rank(key,a));
+        int[] a = {1, 2, 3, 4, 5, 6, 7};
+        System.out.println(rank(key, a));
+
+        System.out.println(rankWithRecursive(key, a, 0, a.length - 1));
     }
 }
