@@ -25,9 +25,11 @@ public class BinarySearch {
     }
 
     public static int rankWithRecursive(int key, int[] a, int start, int end) {
+        //截至条件
         if (start > end) {
             return -1;
         }
+        // 转换成小问题
         int mid = start + (end - start) / 2;
         if (a[mid] == key) {
             return mid;
